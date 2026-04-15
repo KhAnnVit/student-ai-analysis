@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+
+# Секреты
+.env
+*.key
+*.pem
+
+# IDE
+.vscode/
+.idea/
+
+# Данные (если большие)
+data/*.csv
+
+# OS
+.DS_Store
+Thumbs.db
