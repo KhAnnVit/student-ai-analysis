@@ -253,17 +253,17 @@ for level, pct in impact.items():
 
 # === КРУГОВАЯ ДИАГРАММА: Популярность ИИ-инструментов ===
 
-# 2. Подготавливаем данные
+# Подготавливаем данные
 tool_counts = df['AI_Tool_Used'].value_counts()
 total = len(df)
 
-# 3. Задаём цветовую палитру
+# Задаём цветовую палитру
 colors = ['#f94144', '#f8961e', '#f9c74f', '#90be6d', '#4d908e']
 
-# 4. Создаём холст
+# Создаём холст
 plt.figure(figsize=(8, 8))
 
-# 5. Рисуем круговую диаграмму
+# Рисуем круговую диаграмму
 wedges, texts, autotexts = plt.pie(
     tool_counts.values,
     labels=tool_counts.index,
@@ -287,10 +287,10 @@ plt.title(
     pad=20
 )
 
-# 8. Автоматически подгоняем отступы, чтобы ничего не обрезалось
+# Автоматически подгоняем отступы, чтобы ничего не обрезалось
 plt.tight_layout()
 
-# 9. Сохраняем график в файл
+# Сохраняем график в файл
 plt.savefig(
     'images/tools_pie.png',
     dpi=300,
@@ -298,8 +298,81 @@ plt.savefig(
     facecolor='white'
 )
 
-# 10. Показываем график в отдельном окне
+# Показываем график в отдельном окне
 plt.show()
 
-# 11. Печатаем подтверждение в консоль
-print("✅ График сохранён в images/tools_pie.png")
+
+
+
+# === ГИСТОГРАММА: Распределение времени использования ИИ ===
+
+# Настраиваем стиль и размер графика
+sns.set_style("whitegrid")
+plt.rcParams['figure.figsize'] = (10, 6)
+plt.rcParams['font.size'] = 11
+
+# Извлекаем данные для анализа
+hours = df['Daily_Usage_Hours']
+
+# Создаём фигуру
+plt.figure()
+
+# Рисуем гистограмму с KDE-кривой
+sns.histplot(
+    data=df,
+    x='Daily_Usage_Hours',
+    bins=20,
+    kde=True,
+    color='#90be6d',
+    edgecolor='black',
+    linewidth=0.8,
+    alpha=0.5
+)
+
+# Добавляем вертикальные линии: среднее и медиана
+plt.axvline(
+    hours.mean(),
+    color='#f94144',
+    linestyle='--',
+    linewidth=2,
+    label=f'Среднее: {hours.mean():.2f} ч'
+)
+plt.axvline(
+    hours.median(),
+    color='#f8961e',
+    linestyle='--',
+    linewidth=2,
+    label=f'Медиана: {hours.median():.2f} ч'
+)
+
+# Оформление: заголовок и подписи осей
+plt.title(
+    '⏱️ Распределение времени использования ИИ-инструментов',
+    fontsize=14,
+    fontweight='bold',
+    pad=20
+)
+plt.xlabel('Часов в день', fontsize=12)
+plt.ylabel('Количество студентов', fontsize=12)
+
+# Добавляем легенду (для линий среднего и медианы)
+plt.legend(fontsize=10, frameon=True, shadow=True)
+
+# Добавляем лёгкую сетку по оси Y для читаемости
+plt.grid(axis='y', alpha=0.3, linestyle='--')
+
+# Автоматически подгоняем отступы
+plt.tight_layout()
+
+# Сохраняем график в высоком качестве
+plt.savefig(
+    'images/usage_distribution.png',
+    dpi=300,
+    bbox_inches='tight',
+    facecolor='white'
+)
+
+# Показываем график
+plt.show()
+
+
