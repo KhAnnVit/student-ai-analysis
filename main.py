@@ -347,7 +347,7 @@ plt.axvline(
 
 # Оформление: заголовок и подписи осей
 plt.title(
-    '⏱️ Распределение времени использования ИИ-инструментов',
+    'Распределение времени использования ИИ-инструментов',
     fontsize=14,
     fontweight='bold',
     pad=20
@@ -374,5 +374,51 @@ plt.savefig(
 
 # Показываем график
 plt.show()
+
+
+
+
+# Горизонтальный барчарт
+plt.figure(figsize=(10, 6))
+
+# Данные с порядком
+sat_counts = df['Satisfaction_Level'].value_counts().reindex(['Low', 'Medium', 'High'])
+colors = ['#f3722c', '#f9c74f', '#90be6d']
+
+# Рисуем горизонтальные столбцы
+bars = plt.barh(
+    sat_counts.index,
+    sat_counts.values,
+    color=colors,
+    edgecolor='black',
+    linewidth=1.2
+)
+
+# Подписи столбцов
+for bar in bars:
+    width = bar.get_width()
+    pct = width / total * 100
+    plt.text(
+        width + 1,
+        bar.get_y() + bar.get_height()/2,
+        f'{int(width)} ({pct:.1f}%)',
+        va='center',
+        fontweight='bold',
+        fontsize=10
+    )
+
+# Оформление
+plt.title('Удовлетворённость использованием ИИ', fontsize=14, fontweight='bold', pad=20)
+plt.xlabel('Количество студентов', fontsize=12)
+plt.ylabel('')
+plt.xticks(fontsize=11)
+plt.grid(axis='x', alpha=0.3, linestyle='--')
+plt.tight_layout()
+
+plt.savefig('images/satisfaction_bar_h.png', dpi=300, bbox_inches='tight', facecolor='white')
+plt.show()
+
+
+
 
 
